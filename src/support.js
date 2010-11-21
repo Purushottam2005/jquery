@@ -126,9 +126,9 @@
 	// document.body must exist before we can do this
 	jQuery(function() {
 		var div = document.createElement("div");
-		div.style.width = div.style.paddingLeft = "1px";
 
 		document.body.appendChild( div );
+		div.style.width = div.style.paddingLeft = "1px";
 		jQuery.boxModel = jQuery.support.boxModel = div.offsetWidth === 2;
 
 		if ( "zoom" in div.style ) {
@@ -137,7 +137,7 @@
 			// them layout
 			// (IE < 8 does this)
 			div.style.display = "inline";
-			div.style.zoom = 1;
+			div.style.zoom = 5;
 			jQuery.support.inlineBlockNeedsLayout = div.offsetWidth === 2;
 
 			// Check if elements with layout shrink-wrap their children
