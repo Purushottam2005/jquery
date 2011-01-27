@@ -233,7 +233,9 @@ jQuery.fn.extend({
 		parts[1] = parts[1] ? "." + parts[1] : "";
 
 		if ( value === undefined ) {
-			data = this.triggerHandler("getData" + parts[1] + "!", [parts[0]]);
+			if ( jQuery.event.global[ "getData" ] ) {
+				data = this.triggerHandler("getData" + parts[1] + "!", [parts[0]]);
+			}
 
 			// Try to fetch any internally stored data first
 			if ( data === undefined && this.length ) {
@@ -246,13 +248,19 @@ jQuery.fn.extend({
 				data;
 
 		} else {
+			var isSetSetData = !!jQuery.event.global[ "setData" ],
+				isSetChangeData = !!jQuery.event.global[ "changeData" ];
 			return this.each(function() {
 				var $this = jQuery( this ),
 					args = [ parts[0], value ];
 
-				$this.triggerHandler( "setData" + parts[1] + "!", args );
+				if ( isSetSetData ) {
+					$this.triggerHandler( "setData" + parts[1] + "!", args );
+				}
 				jQuery.data( this, key, value );
-				$this.triggerHandler( "changeData" + parts[1] + "!", args );
+				if ( isSetChangeData ) {
+					$this.triggerHandler( "changeData" + parts[1] + "!", args );
+				}
 			});
 		}
 	},
